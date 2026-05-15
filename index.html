@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Professional Gmail Work</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Hind Siliguri',sans-serif;
+}
+
+body{
+    background:linear-gradient(180deg,#eef4ff,#f7fbff);
+    display:flex;
+    justify-content:center;
+    overflow-x:hidden;
+}
+
+/* LOADER */
+
+#loader{
+    position:fixed;
+    inset:0;
+    background:white;
+    z-index:999999;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    transition:0.5s;
+}
+
+.gmail-animation{
+    position:relative;
+    width:120px;
+    height:120px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.gmail-animation::before,
+.gmail-animation::after{
+    content:'';
+    position:absolute;
+    border-radius:50%;
+    border:4px solid transparent;
+}
+
+.gmail-animation::before{
+    width:110px;
+    height:110px;
+    border-top:4px solid #4285F4;
+    border-right:4px solid #EA4335;
+    animation:rotate1 1s linear infinite;
+}
+
+.gmail-animation::after{
+    width:80px;
+    height:80px;
+    border-bottom:4px solid #34A853;
+    border-left:4px solid #FBBC05;
+    animation:rotate2 0.8s linear infinite;
+}
+
+.gmail-logo{
+    width:58px;
+    animation:zoom 1.5s infinite ease-in-out;
+}
+
+@keyframes rotate1{
+    100%{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes rotate2{
+    100%{
+        transform:rotate(-360deg);
+    }
+}
+
+@keyframes zoom{
+    50%{
+        transform:scale(1.1);
+    }
+}
+
+.loading-title{
+    margin-top:18px;
+    font-size:1rem;
+    font-weight:700;
+    color:#202124;
+}
+
+.loading-sub{
+    margin-top:5px;
+    color:#5f6368;
+    font-size:0.82rem;
+}
+
+.progress{
+    width:180px;
+    height:5px;
+    background:#e5e7eb;
+    border-radius:50px;
+    overflow:hidden;
+    margin-top:16px;
+}
+
+.progress span{
+    display:block;
+    height:100%;
+    width:0%;
+    border-radius:50px;
+    background:linear-gradient(90deg,#4285F4,#EA4335,#34A853);
+    animation:load 1.5s forwards;
+}
+
+@keyframes load{
+    100%{
+        width:100%;
+    }
+}
+
+/* APP */
+
+#app{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    display:none;
+}
+
+/* TOPBAR */
+
+.topbar{
+    background:linear-gradient(135deg,#EA4335,#ff6b5f);
+    color:white;
+    text-align:center;
+    padding:13px;
+    font-size:0.92rem;
+    font-weight:700;
+    box-shadow:0 10px 25px rgba(234,67,53,0.22);
+}
+
+/* HERO */
+
+.hero-section{
+    margin:14px 14px 0;
+    background:linear-gradient(135deg,#ffffff,#f4f8ff);
+    border-radius:34px;
+    padding:28px 22px 22px;
+    text-align:center;
+    box-shadow:0 16px 40px rgba(0,0,0,0.06);
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-section::before{
+    content:'';
+    position:absolute;
+    width:240px;
+    height:240px;
+    border-radius:50%;
+    background:rgba(66,133,244,0.06);
+    top:-120px;
+    right:-120px;
+}
+
+.logo-box{
+    width:105px;
+    height:105px;
+    margin:auto;
+    border-radius:30px;
+    background:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    box-shadow:0 18px 45px rgba(66,133,244,0.16);
+    position:relative;
+    z-index:2;
+    animation:floatLogo 3s infinite ease-in-out;
+}
+
+.logo-box img{
+    width:65px;
+}
+
+@keyframes floatLogo{
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+.hero-section h1{
+    margin-top:20px;
+    font-size:2rem;
+    color:#111827;
+    font-weight:800;
+    position:relative;
+    z-index:2;
+}
+
+.hero-section h1 span{
+    color:#4285F4;
+}
+
+.hero-section p{
+    margin-top:10px;
+    color:#6b7280;
+    line-height:1.7;
+    font-size:0.92rem;
+    position:relative;
+    z-index:2;
+}
+
+/* CONTACT BOX */
+
+.contact-wrapper{
+    padding:16px;
+    margin-top:-8px;
+}
+
+.online-box{
+    background:linear-gradient(135deg,#ffffff,#f6fff9);
+    border-radius:30px;
+    padding:20px;
+    text-align:center;
+    border:1px solid #dcfce7;
+    box-shadow:0 18px 45px rgba(37,211,102,0.08);
+}
+
+.online-status{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:#eafff2;
+    color:#16a34a;
+    padding:8px 16px;
+    border-radius:50px;
+    font-size:0.78rem;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.online-status i{
+    font-size:0.55rem;
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    50%{
+        opacity:0.3;
+    }
+}
+
+.online-box h2{
+    margin-top:14px;
+    font-size:1.7rem;
+    font-weight:800;
+    color:#111827;
+    line-height:1.35;
+}
+
+.online-box p{
+    margin-top:10px;
+    color:#6b7280;
+    font-size:0.82rem;
+    line-height:1.6;
+}
+
+/* BUTTONS */
+
+.button-section{
+    margin-top:18px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.wa-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:20px;
+    border-radius:26px;
+    text-decoration:none;
+    color:white;
+    position:relative;
+    overflow:hidden;
+    transition:0.35s;
+}
+
+.wa-btn:hover{
+    transform:translateY(-5px) scale(1.02);
+}
+
+.wa-btn::before{
+    content:'';
+    position:absolute;
+    width:130px;
+    height:100%;
+    background:rgba(255,255,255,0.14);
+    top:0;
+    left:-140px;
+    transform:skewX(-25deg);
+    transition:0.7s;
+}
+
+.wa-btn:hover::before{
+    left:140%;
+}
+
+.btn1{
+    background:linear-gradient(135deg,#25D366,#128C7E);
+    box-shadow:0 16px 38px rgba(37,211,102,0.3);
+}
+
+.btn2{
+    background:linear-gradient(135deg,#4285F4,#1a73e8);
+    box-shadow:0 16px 38px rgba(66,133,244,0.3);
+}
+
+.wa-btn i{
+    font-size:2.5rem;
+    animation:iconMove 1.6s infinite;
+}
+
+@keyframes iconMove{
+    50%{
+        transform:scale(1.12);
+    }
+}
+
+.btn-text{
+    display:flex;
+    flex-direction:column;
+}
+
+.btn-text strong{
+    font-size:1.1rem;
+    font-weight:700;
+}
+
+.btn-text small{
+    margin-top:4px;
+    font-size:0.82rem;
+    opacity:0.95;
+}
+
+/* SUPPORT SECTION */
+
+.support-section{
+    margin:0 16px 20px;
+    background:linear-gradient(135deg,#ffffff,#f5fff8);
+    border-radius:32px;
+    padding:20px;
+    border:1px solid #dcfce7;
+    box-shadow:0 18px 45px rgba(37,211,102,0.1);
+    position:relative;
+    overflow:hidden;
+}
+
+.support-section::before{
+    content:'';
+    position:absolute;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    background:rgba(37,211,102,0.05);
+    top:-110px;
+    right:-110px;
+}
+
+.support-head{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    position:relative;
+    z-index:2;
+}
+
+/* PERFECT WHATSAPP ICON */
+
+.support-icon{
+    width:76px;
+    height:76px;
+    border-radius:26px;
+    background:linear-gradient(135deg,#25D366,#128C7E);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-size:2.5rem;
+    box-shadow:0 16px 35px rgba(37,211,102,0.28);
+    animation:waFloat 2s infinite ease-in-out;
+    flex-shrink:0;
+}
+
+@keyframes waFloat{
+    50%{
+        transform:translateY(-6px);
+    }
+}
+
+.support-text h3{
+    font-size:1.18rem;
+    line-height:1.45;
+    color:#111827;
+    font-weight:800;
+}
+
+.support-text p{
+    margin-top:5px;
+    font-size:0.84rem;
+    line-height:1.5;
+    color:#6b7280;
+}
+
+/* NUMBER CARD */
+
+.number-card{
+    margin-top:18px;
+    background:white;
+    border-radius:24px;
+    padding:16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    border:1px solid #ecfdf5;
+    box-shadow:0 12px 30px rgba(0,0,0,0.04);
+    position:relative;
+    z-index:2;
+}
+
+.country-tag{
+    display:inline-block;
+    background:#ecfdf5;
+    color:#16a34a;
+    padding:5px 12px;
+    border-radius:50px;
+    font-size:0.72rem;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.number-left h2{
+    font-size:1.35rem;
+    font-weight:800;
+    color:#111827;
+    letter-spacing:1px;
+}
+
+.copy-btn{
+    border:none;
+    outline:none;
+    background:linear-gradient(135deg,#25D366,#128C7E);
+    color:white;
+    min-width:96px;
+    height:54px;
+    border-radius:18px;
+    font-size:0.95rem;
+    font-weight:700;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition:0.3s;
+    box-shadow:0 14px 30px rgba(37,211,102,0.22);
+}
+
+.copy-btn:hover{
+    transform:scale(1.05);
+}
+
+/* FEATURES */
+
+.features-section{
+    padding:0 16px 20px;
+}
+
+.section-title{
+    font-size:1.2rem;
+    font-weight:800;
+    color:#111827;
+    margin-bottom:16px;
+}
+
+.info-card{
+    background:linear-gradient(135deg,#ffffff,#f8fbff);
+    border-radius:28px;
+    padding:20px;
+    display:flex;
+    gap:14px;
+    margin-bottom:16px;
+    border:1px solid #edf1ff;
+    box-shadow:0 14px 35px rgba(0,0,0,0.05);
+}
+
+.icon{
+    width:64px;
+    height:64px;
+    border-radius:22px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-size:1.45rem;
+    flex-shrink:0;
+}
+
+.green{
+    background:linear-gradient(135deg,#34A853,#1e9b50);
+}
+
+.red{
+    background:linear-gradient(135deg,#EA4335,#d93025);
+}
+
+.info-card h3{
+    font-size:1rem;
+    margin-bottom:6px;
+    color:#111827;
+}
+
+.info-card p{
+    font-size:0.88rem;
+    line-height:1.6;
+    color:#6b7280;
+}
+
+/* FOOTER */
+
+.footer{
+    margin:0 14px 20px;
+    background:linear-gradient(135deg,#ffffff,#f8f9ff);
+    border-radius:30px;
+    padding:24px 20px;
+    text-align:center;
+    box-shadow:0 14px 35px rgba(0,0,0,0.04);
+}
+
+.footer b{
+    color:#EA4335;
+    font-size:1rem;
+}
+
+.footer p{
+    margin-top:8px;
+    color:#6b7280;
+    font-size:0.88rem;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOADER -->
+
+<div id="loader">
+
+    <div class="gmail-animation">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" class="gmail-logo">
+    </div>
+
+    <div class="loading-title">
+        Gmail Server Connecting...
+    </div>
+
+    <div class="loading-sub">
+        Secure Professional Training Platform
+    </div>
+
+    <div class="progress">
+        <span></span>
+    </div>
+
+</div>
+
+<!-- APP -->
+
+<div id="app">
+
+    <div class="topbar">
+        আগে কাজ শিখুন • পরে পেমেন্ট করুন
+    </div>
+
+    <!-- HERO -->
+
+    <div class="hero-section">
+
+        <div class="logo-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg">
+        </div>
+
+        <h1>
+            Unlimited <span>Gmail create method </span>
+        </h1>
+
+        <p>
+            মোবাইল ব্যবহার করে Gmail Work শিখুন এবং 
+            ঘরে বসে অনলাইনে কাজ শুরু করুন।
+        </p>
+
+    </div>
+
+    <!-- CONTACT -->
+
+    <div class="contact-wrapper">
+
+        <div class="online-box">
+
+            <div class="online-status">
+                <i class="fa-solid fa-circle"></i>
+                ADMIN ONLINE
+            </div>
+
+            <h2>
+                কাজ শিখতে নিচে ক্লিক করুন
+            </h2>
+
+            <p>
+                আগে কাজ শিখানো হবে • পরে চার্জ দিতে হবে <br>
+                কোনো অ্যাডভান্স পেমেন্ট লাগবে না
+            </p>
+
+        </div>
+
+        <div class="button-section">
+
+            <a id="waBtn1" href="#" class="wa-btn btn1">
+
+                <i class="fab fa-whatsapp"></i>
+
+                <div class="btn-text">
+
+                    <strong>কাজ শিখতে ক্লিক করুন</strong>
+
+                    <small>
+                        দ্রুত রিপ্লাই • নাম্বার ১
+                    </small>
+
+                </div>
+
+            </a>
+
+            <a id="waBtn2" href="#" class="wa-btn btn2">
+
+                <i class="fab fa-whatsapp"></i>
+
+                <div class="btn-text">
+
+                    <strong>নাম্বার ১ বিজি?</strong>
+
+                    <small>
+                        তাহলে নাম্বার ২ এ মেসেজ করুন
+                    </small>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- SUPPORT SECTION -->
+
+    <div class="support-section">
+
+        <div class="support-head">
+
+            <div class="support-icon">
+                <i class="fab fa-whatsapp"></i>
+            </div>
+
+            <div class="support-text">
+
+                <h3>
+                    WhatsApp বাটনে সমস্যা হচ্ছে?
+                </h3>
+
+                <p>
+                    নিচের নাম্বারে সরাসরি WhatsApp এ মেসেজ দিন
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="number-card">
+
+            <div class="number-left">
+
+                <span class="country-tag">
+                    (Colombia) দেশের মোবাইল নাম্বার।
+                </span>
+
+                <h2 id="copyText">
+                    +573180844438
+                </h2>
+
+            </div>
+
+            <button class="copy-btn" onclick="copyNumber()">
+
+                <i class="fa-regular fa-copy"></i>
+
+                <span id="copyBtnText">
+                    Copy
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- FEATURES -->
+
+    <div class="features-section">
+
+        <h2 class="section-title">
+            কেন আমাদের সাথে কাজ শিখবেন?
+        </h2>
+
+        <div class="info-card">
+
+            <div class="icon green">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+
+            <div>
+
+                <h3>
+                    ২৪/৭ লাইভ সাপোর্ট
+                </h3>
+
+                <p>
+                    কাজ শেখার সময় যেকোনো সমস্যায় সরাসরি সাপোর্ট পাবেন।
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="info-card">
+
+            <div class="icon red">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+
+            <div>
+
+                <h3>
+                    Trusted Training System
+                </h3>
+
+                <p>
+                    এখানে আগে কাজ শিখানো হয় তারপর চার্জ নেওয়া হয়।
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        <b>
+            No Advance Payment Required
+        </b>
+
+        <p>
+            © 2026 Gmail Work Training Team
+        </p>
+
+    </div>
+
+</div>
+
+<script>
+
+/* Loader */
+
+window.addEventListener('load',()=>{
+
+    setTimeout(()=>{
+
+        document.getElementById('loader').style.opacity='0';
+
+        setTimeout(()=>{
+
+            document.getElementById('loader').style.display='none';
+
+            document.getElementById('app').style.display='block';
+
+        },300);
+
+    },1500);
+
+});
+
+/* Random Messages */
+
+const messages = [
+
+"আসসালামু আলাইকুম, আমি Gmail Work শিখতে চাই।",
+
+"হ্যালো, আমি প্রফেশনাল Gmail Work সম্পর্কে জানতে চাই।",
+
+"আসসালামু আলাইকুম, আমি কাজটি শিখতে আগ্রহী।",
+
+"ভাইয়া আমি Gmail Work শিখতে চাই বিস্তারিত বলবেন?",
+
+"আমি কাজ শিখে অনলাইনে কাজ করতে চাই।"
+
+];
+
+/* Button 1 */
+
+document.getElementById("waBtn1").addEventListener("click",function(){
+
+    let randomMsg = messages[Math.floor(Math.random()*messages.length)];
+
+    let url = "https://wa.me/573180844438?text=" + encodeURIComponent(randomMsg);
+
+    window.location.href = url;
+
+});
+
+/* Button 2 */
+
+document.getElementById("waBtn2").addEventListener("click",function(){
+
+    let randomMsg = messages[Math.floor(Math.random()*messages.length)];
+
+    let url = "https://wa.me/573166661625?text=" + encodeURIComponent(randomMsg);
+
+    window.location.href = url;
+
+});
+
+/* Copy Number */
+
+function copyNumber(){
+
+    let text = "+573180844438";
+
+    if(navigator.clipboard){
+
+        navigator.clipboard.writeText(text).then(()=>{
+
+            document.getElementById("copyBtnText").innerText = "Copied";
+
+        });
+
+    }else{
+
+        let tempInput = document.createElement("input");
+
+        tempInput.value = text;
+
+        document.body.appendChild(tempInput);
+
+        tempInput.select();
+
+        document.execCommand("copy");
+
+        document.body.removeChild(tempInput);
+
+        document.getElementById("copyBtnText").innerText = "Copied";
+
+    }
+
+    setTimeout(()=>{
+
+        document.getElementById("copyBtnText").innerText = "Copy";
+
+    },2000);
+
+}
+
+</script>
+
+</body>
+</html>
